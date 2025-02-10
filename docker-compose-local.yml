@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  parking-recommendation-redis:
+    container_name: parking-recommendation-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: ms111401/parking-recommendation-redis
+    ports:
+      - "6379:6379"
+  parking-recommendation-database:
+    container_name: parking-recommendation-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: ms111401/parking-recommendation-database
+    environment:
+      - MARIADB_DATABASE=parking-recommendation
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    ports:
+      - "13306:3306"
