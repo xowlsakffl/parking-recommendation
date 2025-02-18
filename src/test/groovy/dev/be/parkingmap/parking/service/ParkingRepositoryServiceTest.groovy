@@ -38,4 +38,53 @@ class ParkingRepositoryServiceTest extends AbstractIntegrationContainerBaseTest{
         result.get(0).getParkingAddress() == modifiedAddress
 
     }
+
+    def "self invocation"() {
+
+        given:
+        String address = "인천광역시 부평구 삼산동"
+        String name = "삼산주차타워"
+        double latitude = 36.11
+        double longitude = 128.11
+
+        def parking = Parking.builder()
+                .parkingAddress(address)
+                .parkingName(name)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build()
+
+        when:
+        parkingRepositoryService.bar(Arrays.asList(parking))
+
+        then:
+        def e = thrown(RuntimeException.class)
+        def result = parkingRepositoryService.findAll()
+        result.size() == 1 // 트랜잭션이 적용되지 않는다( 롤백 적용 X )
+    }
+
+    def "transactional readOnly test"() {
+
+        given:
+        String inputAddress = "인천광역시 부평구 삼산동"
+        String modifiedAddress = "인천광역시 부평구 부개동"
+        String name = "부개타워"
+        double latitude = 36.11
+        double longitude = 128.11
+
+        def input = Parking.builder()
+                .parkingAddress(inputAddress)
+                .parkingName(name)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build()
+
+        when:
+        def parking = parkingRepository.save(input)
+        parkingRepositoryService.startReadOnlyMethod(parking.id)
+
+        then:
+        def result = parkingRepositoryService.findAll()
+        result.get(0).getPharmacyAddress() == inputAddress
+    }
 }
