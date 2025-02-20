@@ -1,12 +1,16 @@
 package dev.be.parkingmap.direction.service;
 
 import dev.be.parkingmap.api.dto.DocumentDto;
+import dev.be.parkingmap.api.service.KakaoCategorySearchService;
 import dev.be.parkingmap.direction.entity.Direction;
+import dev.be.parkingmap.direction.repository.DirectionRepository;
 import dev.be.parkingmap.parking.dto.ParkingDto;
 import dev.be.parkingmap.parking.service.ParkingSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +27,18 @@ public class DirectionService {
     private static final double RADIUS_KM = 10.0; // 반경 10km 이내
 
     private final ParkingSearchService parkingSearchService;
+
+    private final DirectionRepository directionRepository;
+    private final KakaoCategorySearchService kakaoCategorySearchService;
+
+    @Transactional
+    public List<Direction> saveAll(List<Direction> directionList) {
+        if(CollectionUtils.isEmpty(directionList)){
+            return Collections.emptyList();
+        }
+
+        return directionRepository.saveAll(directionList);
+    }
 
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
         if (Objects.isNull(documentDto)) {
@@ -46,6 +62,28 @@ public class DirectionService {
                                 .build())
                 .filter(direction -> direction.getDistance() <= RADIUS_KM)
                 .sorted(Comparator.comparing(Direction::getDistance))
+                .limit(MAX_SEARCH_COUNT)
+                .collect(Collectors.toList());
+    }
+
+    // parking search by category kakao api
+    public List<Direction> buildDirectionListByCategoryApi(DocumentDto inputDocumentDto) {
+        if(Objects.isNull(inputDocumentDto)) return Collections.emptyList();
+
+        return kakaoCategorySearchService
+                .requestParkingCategorySearch(inputDocumentDto.getLatitude(), inputDocumentDto.getLongitude(), RADIUS_KM)
+                .getDocumentList()
+                .stream().map(resultDocumentDto ->
+                        Direction.builder()
+                                .inputAddress(inputDocumentDto.getAddressName())
+                                .inputLatitude(inputDocumentDto.getLatitude())
+                                .inputLongitude(inputDocumentDto.getLongitude())
+                                .targetParkingName(resultDocumentDto.getPlaceName())
+                                .targetAddress(resultDocumentDto.getAddressName())
+                                .targetLatitude(resultDocumentDto.getLatitude())
+                                .targetLongitude(resultDocumentDto.getLongitude())
+                                .distance(resultDocumentDto.getDistance() * 0.001) // km 단위
+                                .build())
                 .limit(MAX_SEARCH_COUNT)
                 .collect(Collectors.toList());
     }
