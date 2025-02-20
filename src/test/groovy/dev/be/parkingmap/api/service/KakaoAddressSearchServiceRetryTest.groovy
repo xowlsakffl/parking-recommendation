@@ -1,12 +1,15 @@
 package dev.be.parkingmap.api.service
 
 import dev.be.parkingmap.AbstractIntegrationContainerBaseTest
+import dev.be.parkingmap.api.dto.DocumentDto
 import dev.be.parkingmap.api.dto.KakaoApiResponseDto
 import dev.be.parkingmap.api.dto.MetaDto
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 import spock.lang.Specification
 
