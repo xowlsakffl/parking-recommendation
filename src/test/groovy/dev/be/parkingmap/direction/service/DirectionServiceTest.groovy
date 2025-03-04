@@ -1,8 +1,6 @@
 package dev.be.parkingmap.direction.service
 
 import dev.be.parkingmap.api.dto.DocumentDto
-import dev.be.parkingmap.api.service.KakaoCategorySearchService
-import dev.be.parkingmap.direction.repository.DirectionRepository
 import dev.be.parkingmap.parking.dto.ParkingDto
 import dev.be.parkingmap.parking.service.ParkingSearchService
 import spock.lang.Specification
@@ -11,11 +9,7 @@ import spock.lang.Specification
 class DirectionServiceTest extends Specification {
     private ParkingSearchService parkingSearchService = Mock();
 
-    private DirectionRepository directionRepository = Mock();
-    private KakaoCategorySearchService kakaoCategorySearchService = Mock();
-    private Base62Service base62Service = Mock();
-
-    private DirectionService directionService = new DirectionService(parkingSearchService, directionRepository, kakaoCategorySearchService, base62Service);
+    private DirectionService directionService = new DirectionService(parkingSearchService);
 
     private List<ParkingDto> parkingList;
 
