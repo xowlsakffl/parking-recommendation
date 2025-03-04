@@ -24,15 +24,6 @@
     - ex) http://localhost:8080/dir/nqxtX
     - base62를 통한 인코딩    
   - shorten url의 유효 기간은 30일로 제한 한다.   
-  
-## Parking Recommendation Process   
-
-       
-
-## Direction Shorten Url Process
-
- 
-
 
 ## Feature List   
 
@@ -67,3 +58,6 @@
 
 ## Result   
   http://3.34.163.13:8080/
+
+![화면 캡처 2025-03-05 051020](https://github.com/user-attachments/assets/ae3590ed-3a00-4ac5-8924-e709d7fbb948)
+![화면 캡처 2025-03-05 051044](https://github.com/user-attachments/assets/6a0e597d-cc9d-4334-9bbb-fd0894ea1241)
