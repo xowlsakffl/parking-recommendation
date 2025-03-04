@@ -85,6 +85,6 @@ class ParkingRepositoryServiceTest extends AbstractIntegrationContainerBaseTest{
 
         then:
         def result = parkingRepositoryService.findAll()
-        result.get(0).getParkingAddress() == inputAddress
+        result.get(0).getPharmacyAddress() == inputAddress
     }
 }
