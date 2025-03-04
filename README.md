@@ -61,3 +61,4 @@
 
 ![화면 캡처 2025-03-05 051020](https://github.com/user-attachments/assets/ae3590ed-3a00-4ac5-8924-e709d7fbb948)
 ![화면 캡처 2025-03-05 051044](https://github.com/user-attachments/assets/6a0e597d-cc9d-4334-9bbb-fd0894ea1241)
+![화면 캡처 2025-03-05 051226](https://github.com/user-attachments/assets/dcc19252-335a-4edc-b794-38e05c94ce09)
