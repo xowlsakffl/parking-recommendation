@@ -77,7 +77,7 @@ class ParkingRepositoryTest extends AbstractIntegrationContainerBaseTest {
         def result = parkingRepository.findAll()
 
         then:
-        result.get(0).getCreatedAt().isAfter(now)
-        result.get(0).getUpdatedAt().isAfter(now)
+        result.get(0).getCreatedDate().isAfter(now)
+        result.get(0).getModifiedDate().isAfter(now)
     }
 }
