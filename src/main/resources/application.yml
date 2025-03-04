@@ -59,4 +59,4 @@ spring:
 parking:
   recommendation:
     base:
-      url: http://3.34.163.13/dir/
+      url: http://3.34.163.13:8080/dir/
